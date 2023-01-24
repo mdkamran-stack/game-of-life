@@ -1,0 +1,29 @@
+# Scripted Pipeline
+node('GOL') {
+    stage('SCM') {
+        // clone the code
+        git 'https://github.com/asquarezone/game-of-life.git'
+    }
+    stage('build') {
+        // build the code
+        sh 'mvn package'
+    }
+}
+
+# Declarative Pipeline
+
+pipeline {
+    agent { label 'GOL' }
+    stages {
+        stage('SCM') {
+            steps {
+                git 'https://github.com/asquarezone/game-of-life.git'
+            }
+        }
+        stage('COMPILE'){
+            steps {
+                sh 'mvn package'
+            }
+        }
+    }
+}
